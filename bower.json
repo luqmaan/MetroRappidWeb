@@ -9,6 +9,8 @@
     "angular": "1.2.x",
     "angular-route": "1.2.x",
     "angular-loader": "1.2.x",
-    "angular-mocks": "~1.2.15"
+    "angular-mocks": "~1.2.15",
+    "leaflet": "~0.7.2",
+    "angular-leaflet-directive": "0.7.6"
   }
 }
