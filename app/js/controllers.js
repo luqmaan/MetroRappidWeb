@@ -1,22 +1,29 @@
 angular
     .module('metroRappid.controllers', ['metroRappid.services.NextBus'])
     .controller('MapCtrl', function ($scope, NextBus) {
-        var map = new L.Map('map'),
-            osmUrl = 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-            osmAttrib = 'Map data © <a href="http://openstreetmap.org">OpenStreetMap</a> contributors',
-            osm = new L.TileLayer(osmUrl, {
+        angular.extend($scope, {
+            defaults: {
+                tileLayer: 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
                 minZoom: 12,
-                attribution: osmAttrib
-            }),
-            vehicles;
-
-        map.setView(new L.LatLng(30.267153, -97.743061), 12);
-        map.addLayer(osm);
+                maxZoom: 16,
+                path: {
+                    weight: 10,
+                    color: '#800000',
+                    opacity: 1
+                }
+            },
+            center: {
+                lat: 30.267153,
+                lng: -97.743061,
+                zoom: 12
+            }
+        });
 
         NextBus.get('abc').then(
-            function() { console.log(arguments); },
-            function() { console.error(arguments); },
-            function() { console.log(arguments); });
+            function(xml) { window.xml = xml; console.log(arguments); },
+            function() { console.error(arguments); }
+            // function() { console.log(arguments); }
+        );
 
     });
 

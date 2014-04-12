@@ -3,7 +3,8 @@ angular.module('metroRappid', [
     'metroRappid.filters',
     'metroRappid.services',
     'metroRappid.directives',
-    'metroRappid.controllers'
+    'metroRappid.controllers',
+    'leaflet-directive'
 ]).
 config(['$routeProvider',
     function($routeProvider) {
