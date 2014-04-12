@@ -1,0 +1,39 @@
+/* app css stylesheet */
+
+body {
+  font-family: 'Helvetica';
+  padding: 0 5em;
+  margin: 0;
+}
+
+.menu {
+  list-style: none;
+  margin-bottom: 2em;
+  padding: 1em;
+  background: hsla(358,76%,37%,1);
+}
+
+.menu , .menu   a {
+    color: #fff;
+    text-decoration: none;
+}
+
+.menu a:hover {
+    color: red;
+}
+
+.menu > li {
+  display: inline;
+}
+
+.menu > li:before {
+  content: "|";
+  padding-right: 0.3em;
+}
+
+.menu > li:nth-child(1):before {
+  content: "";
+  padding: 0;
+}
+
+#map { height: 500px; }
