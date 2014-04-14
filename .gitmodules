@@ -1,0 +1,3 @@
+[submodule "sass_to_scss"]
+	path = sass_to_scss
+	url = git@github.com:luqmaan/sass_to_scss.git
