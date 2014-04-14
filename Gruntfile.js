@@ -6,14 +6,13 @@ module.exports = function(grunt) {
                 options: {
                     port: 3713,
                     hostname: '0.0.0.0',
-                    base: 'app',
                     livereload: true
                 }
             }
         },
         open: {
             all: {
-                path: 'http://localhost:<%= connect.all.options.port%>'
+                path: 'http://localhost:<%= connect.all.options.port%>/app'
             }
         },
         watch: {
@@ -38,8 +37,11 @@ module.exports = function(grunt) {
             copy_bourbon: {
                 command: 'cp -r bower_components/bourbon/app/assets/stylesheets app/sass/bourbon'
             },
+            copy_neat: {
+                command: 'cp -r bower_components/neat/app/assets/stylesheets app/sass/neat'
+            },
             install_sass_to_scss: {
-                command: 'git submodule add git@github.com:luqmaan/sass_to_scss.git',
+                command: 'git submodule add git@github.com:luqmaan/sass_to_scss.git &&  git submodule update --recursive',
                 exitCode: [0, 1]  // ignore submodule init directory already exists error so the next task can run
             },
             sass_to_scss: {
@@ -82,6 +84,7 @@ module.exports = function(grunt) {
     grunt.registerTask('install', [
         'exec:install_sass_to_scss',
         'exec:copy_bourbon',
+        'exec:copy_neat',
     ]);
 
     grunt.registerTask('build_sass', [
