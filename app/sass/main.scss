@@ -1,0 +1,8 @@
+@import "bourbon/bourbon";
+body {
+    background: red;
+    @include linear-gradient(to top, red, orange)
+}
+ul {
+    background: white;
+}
