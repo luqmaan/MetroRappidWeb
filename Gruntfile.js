@@ -45,7 +45,7 @@ module.exports = function(grunt) {
                 exitCode: [0, 1]  // ignore submodule init directory already exists error so the next task can run
             },
             sass_to_scss: {
-                command: 'python sass_to_scss/sass_to_scss.py app/sass/main.sass'
+                command: 'python sass_to_scss/sass_to_scss.py app/sass/main.sass && python sass_to_scss/sass_to_scss.py app/sass/grid-settings.sass'
             }
         },
         sass: {

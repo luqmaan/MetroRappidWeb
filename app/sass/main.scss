@@ -1,8 +1,17 @@
 @import "bourbon/bourbon";
+@import "grid-settings";
+@import "neat/neat";
 body {
-    background: red;
-    @include linear-gradient(to top, red, orange)
+    @include media (mobile); {
+        @include span-columns(4);
+        background: gray;
+    }
+    @include media (tablet); {
+        @include span-columns(8);
+        background: gray;
+    }
 }
-ul {
-    background: white;
+.container {
+    @include outer-container;
+    background: red;
 }

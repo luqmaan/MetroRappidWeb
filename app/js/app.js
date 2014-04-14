@@ -8,8 +8,8 @@ angular
     ])
     .config(['$routeProvider',
         function($routeProvider) {
-            $routeProvider.when('/map', {
-                templateUrl: 'partials/map.html',
+            $routeProvider.when('/vehicles', {
+                templateUrl: 'partials/vehicles.html',
                 controller: 'MapCtrl'
             });
         }

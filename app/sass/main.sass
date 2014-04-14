@@ -1,8 +1,16 @@
 @import bourbon/bourbon
+@import grid-settings
+@import neat/neat
 
 body
-    background: red
-    @include linear-gradient(to top, red, orange)
+    +media (mobile)
+        +span-columns(4)
+        background: gray
+    +media (tablet)
+        +span-columns(8)
+        background: gray
 
-ul
-    background: white
+
+.container
+    +outer-container
+    background: red

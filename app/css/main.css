@@ -1,9 +1,20 @@
-body {
-  background: red;
-  background-color: red;
-  background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #ff0000), color-stop(100%, #ffa500));
-  background-image: -webkit-linear-gradient(bottom, #ff0000, #ffa500);
-  background-image: linear-gradient(to top,#ff0000, #ffa500); }
+* {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box; }
 
 ul {
   background: white; }
+
+body {
+  width: 100%;
+  max-width: 100%; }
+
+.container {
+  float: left;
+  display: block;
+  margin-right: 2.35765%;
+  width: 48.82117%;
+  background: red; }
+  .container:last-child {
+    margin-right: 0; }
