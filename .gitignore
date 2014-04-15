@@ -18,6 +18,5 @@ tmp
 .idea
 .pyc
 
-app/sass/bourbon/
-app/sass/neat/
+foundation/
 

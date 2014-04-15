@@ -16,9 +16,6 @@ module.exports = function(grunt) {
             }
         },
         watch: {
-            options: {
-                livereload: true,
-            },
             grunt: {
                 files: ['Gruntfile.js'],
                 options: {
@@ -26,26 +23,19 @@ module.exports = function(grunt) {
                 }
             },
             sass: {
-                files: ['app/sass/*.sass'],
+                files: ['app/scss/*.scss'],
                 tasks: ['build_sass'],
             },
             app: {
                 files: ['app/*', 'app/js/*.js', 'app/css/*.css', 'app/partials/*.html'],
+                options: {
+                    livereload: true,
+                },
             }
         },
         exec: {
-            copy_bourbon: {
-                command: 'cp -r bower_components/bourbon/app/assets/stylesheets app/sass/bourbon'
-            },
-            copy_neat: {
-                command: 'cp -r bower_components/neat/app/assets/stylesheets app/sass/neat'
-            },
-            install_sass_to_scss: {
-                command: 'git submodule add git@github.com:luqmaan/sass_to_scss.git &&  git submodule update --recursive',
-                exitCode: [0, 1]  // ignore submodule init directory already exists error so the next task can run
-            },
-            sass_to_scss: {
-                command: 'python sass_to_scss/sass_to_scss.py app/sass/main.sass && python sass_to_scss/sass_to_scss.py app/sass/grid-settings.sass'
+            copy_foundation: {
+                command: 'cp -r bower_components/foundation/scss app/scss/foundation'
             }
         },
         sass: {
@@ -57,11 +47,11 @@ module.exports = function(grunt) {
             dev: {
                 options: {
                     includePaths: [
-                        'app/sass'
+                        'app/scss'
                     ]
                 },
                 files: {
-                    'app/css/main.css': 'app/sass/main.scss'
+                    'app/css/main.css': 'app/scss/main.scss'
                 }
             }
         }
@@ -82,13 +72,10 @@ module.exports = function(grunt) {
     ]);
 
     grunt.registerTask('install', [
-        'exec:install_sass_to_scss',
-        'exec:copy_bourbon',
-        'exec:copy_neat',
+        'exec:copy_foundation',
     ]);
 
     grunt.registerTask('build_sass', [
-        'exec:sass_to_scss',
         'sass:dev'
     ]);
 };

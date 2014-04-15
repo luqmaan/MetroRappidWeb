@@ -1,10 +1,12 @@
-'use strict';
-
-/* Filters */
-
-angular.module('metroRappid.filters', []).
-  filter('interpolate', ['version', function(version) {
-    return function(text) {
-      return String(text).replace(/\%VERSION\%/mg, version);
-    };
-  }]);
+angular
+.module('metroRappid.filters', [])
+.filter('directionify',
+    function(directionID) {
+        return {
+            0: 'North',
+            1: 'South',
+            2: 'East',
+            3: 'West'
+        }[directionID];
+    }
+);
