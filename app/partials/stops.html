@@ -2,7 +2,14 @@
     <h1>{{ routeID }} {{ directionID | directionify  }} Stops</h1>
 </div>
 
-<div class="row" ng-repeat="stop in stops">
-    <b>{{ stop.stop_name }}</b>
-    {{ stop.stop_desc }}
+<div class="row activity" ng-hide="!activity">
+    {{ activity }}
 </div>
+
+
+<div class="row">
+    <dl class="stop" ng-repeat="stop in stops">
+        <dt>{{ stop.stop_name }}</dt>
+    </dl>
+</div>
+

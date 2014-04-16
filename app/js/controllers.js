@@ -1,18 +1,29 @@
-angular.module('metroRappid.controllers', ['metroRappid.services.Stops', 'metroRappid.filters'])
-    .controller('RouteStopsCtrl', function ($scope, Stops, $routeParams, $filter) {
+angular.module('metroRappid.controllers', ['metroRappid.services.Stops', 'geolocation'])
+    .controller('RouteStopsCtrl', function($scope, Stops, $routeParams, geolocation) {
         $scope.routeID = $routeParams.routeID;
         $scope.directionID = $routeParams.directionID;
+        $scope.activity = "Fetching stops";
 
-        window.$filter = $filter;
-        console.log('$filter', $filter);
+        var errorHandler = function errorHandler(e) {
+            console.log('error', e);
+            $scope.activity = e;
+        };
+
         Stops.get($scope.routeID, $scope.directionID).then(
             function(stops) {
+                $scope.activity = "Updating location";
+
                 $scope.stops = stops;
+                geolocation.getLocation().then(function(data) {
+                    $scope.activity = false;
+
+                    $scope.coords = {lat: data.coords.latitude,long: data.coords.longitude};
+                    console.log('coords', $scope.coords);
+                }, errorHandler);
             },
-            function() { console.error('reject', arguments); },
-            function() { console.log('notify', arguments); }
+            errorHandler,
+            function() {
+                console.log('notify', arguments);
+            }
         );
     });
-
-
-
