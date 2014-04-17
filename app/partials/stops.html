@@ -2,13 +2,13 @@
     <h1>{{ routeID }} {{ directionID | directionify  }} Stops</h1>
 </div>
 
-<div class="row activity" ng-hide="!activity">
+<div class="row activity" ng-show="activity">
     {{ activity }}
 </div>
 
 
 <div class="row">
-    <dl class="stop" ng-repeat="stop in stops">
+    <dl ng-repeat="stop in stops" class="stop" ng-class="{closest: stop.distanceIndex===0}">
         <dt>{{ stop.stop_name }}</dt>
     </dl>
 </div>

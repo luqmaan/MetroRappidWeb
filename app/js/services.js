@@ -1,9 +1,6 @@
-angular
-.module('metroRappid.services', [])
-.value('version', '0.1');
+angular.module('metroRappid.services', []).value('version', '0.1');
 
-angular
-.module('metroRappid.services.NextBus', [])
+angular.module('metroRappid.services.NextBus', [])
 .factory('NextBus', function($http, $q) {
     return {
         xmlParser: null,
@@ -45,7 +42,7 @@ angular
                 url = '/app/data/stops_' + routeId + '_' + directionID + '.json',
                 deferred = $q.defer();
 
-            console.log('GET', url);
+            console.log(method, url);
 
             $http({method: method, url: url})
                 .success(function(data, status, headers, config) {
@@ -56,4 +53,12 @@ angular
             return deferred.promise;
         }
     };
+});
+
+angular.module('metroRappid.services.Geolib', [])
+.factory('Geolib', function() {
+    // FIXME: ;_;
+    var leGeolib = window.geolib;
+    delete window.geolib;
+    return leGeolib;
 });
