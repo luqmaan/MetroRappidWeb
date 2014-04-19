@@ -32,8 +32,7 @@ angular.module('metroRappid.services.NextBus', [])
     };
 });
 
-angular
-.module('metroRappid.services.Stops', [])
+angular.module('metroRappid.services.Stops', [])
 .factory('Stops', function($http, $q) {
     return {
         get: function(routeId, directionID) {

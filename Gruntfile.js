@@ -70,19 +70,9 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-sass');
     grunt.loadNpmTasks('grunt-karma');
 
+    grunt.registerTask('default', ['open','connect','watch','karma']);
+    grunt.registerTask('install', ['exec:copy_foundation']);
+    grunt.registerTask('build_sass', ['sass:dev']);
+    grunt.registerTask('test', ['karma']);
 
-    grunt.registerTask('default', [
-        'open',
-        'connect',
-        'watch',
-        'karma'
-    ]);
-
-    grunt.registerTask('install', [
-        'exec:copy_foundation',
-    ]);
-
-    grunt.registerTask('build_sass', [
-        'sass:dev'
-    ]);
 };

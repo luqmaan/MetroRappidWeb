@@ -1,5 +1,5 @@
 angular.module('metroRappid.controllers', ['metroRappid.services.Stops', 'geolocation', 'metroRappid.services.Geolib'])
-    .controller('RouteStopsCtrl', function($scope, Stops, $routeParams, geolocation, Geolib) {
+    .controller('RouteStopsCtrl', function($scope, $routeParams, $log, Stops, geolocation, Geolib) {
         var errorHandler = function errorHandler(e) {
             console.log('error', e);
             $scope.activity = e;
@@ -13,10 +13,7 @@ angular.module('metroRappid.controllers', ['metroRappid.services.Stops', 'geoloc
             function(stops) {
                 $scope.activity = "Updating location";
                 $scope.stops = stops;
-
-                // console.log('$q', $q.defer());
-                // var abc = $q.defer();
-                // geolocation.getLocation = abc.resolve.bind($q, {coords: {latitude: 30.265983199999997, longtitude: -97.7463879}});
+                $log.warn("haha");
 
                 geolocation.getLocation().then(function(location) {
                     console.log(location);
@@ -27,8 +24,6 @@ angular.module('metroRappid.controllers', ['metroRappid.services.Stops', 'geoloc
                     $scope.location = location;
 
                     console.log($scope.location.coords, $scope.stops);
-                    Geolib.orderByDistance();
-
                 }, errorHandler);
             },
             errorHandler,
