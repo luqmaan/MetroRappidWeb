@@ -54,6 +54,11 @@ module.exports = function(grunt) {
                     'app/css/main.css': 'app/scss/main.scss'
                 }
             }
+        },
+        karma: {
+            unit: {
+                configFile: 'test/karma.conf.js'
+            }
         }
     });
 
@@ -63,12 +68,14 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-reload');
     grunt.loadNpmTasks('grunt-open');
     grunt.loadNpmTasks('grunt-sass');
+    grunt.loadNpmTasks('grunt-karma');
 
 
     grunt.registerTask('default', [
         'open',
         'connect',
-        'watch'
+        'watch',
+        'karma'
     ]);
 
     grunt.registerTask('install', [

@@ -1,19 +1,18 @@
-'use strict';
-
-/* jasmine specs for filters go here */
-
 describe('filter', function() {
-  beforeEach(module('myApp.filters'));
+    var directionifyFilter;
+    // https://github.com/frapontillo/angular-filters/blob/master/test/default/defaultSpec.js
 
-
-  describe('interpolate', function() {
-    beforeEach(module(function($provide) {
-      $provide.value('version', 'TEST_VER');
+    beforeEach(module('metroRappid.filters'));
+    beforeEach(inject(function($filter) {
+        directionifyFilter = $filter('directionify');
     }));
 
-
-    it('should replace VERSION', inject(function(interpolateFilter) {
-      expect(interpolateFilter('before %VERSION% after')).toEqual('before TEST_VER after');
-    }));
-  });
+    describe('directionify', function() {
+        it('should turn a direction number into a string', function() {
+            expect(directionifyFilter(0)).toEqual('North');
+            expect(directionifyFilter(1)).toEqual('South');
+            expect(directionifyFilter(2)).toEqual('East');
+            expect(directionifyFilter(3)).toEqual('West');
+        });
+    });
 });
