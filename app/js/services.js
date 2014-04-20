@@ -1,11 +1,11 @@
 angular.module('metroRappid.services', []).value('version', '0.1');
 
 angular.module('metroRappid.services.NextBus', [])
-.factory('NextBus', function($http, $q) {
+.factory('NextBus', function($http, $q, XmlToYavaScript) {
     return {
         xmlParser: null,
         parse: function(xmlStr) {
-            if (!this.xmlParser) this.xmlParser = new X2JS();  // FIXME: load properly
+            if (!this.xmlParser) this.xmlParser = new XmlToYavaScript();  // FIXME: load properly
 
             var xml = this.xmlParser.xml_str2json(xmlStr);
 
@@ -57,7 +57,11 @@ angular.module('metroRappid.services.Stops', [])
 angular.module('metroRappid.services.Geolib', [])
 .factory('Geolib', function() {
     // FIXME: ;_;
-    var leGeolib = window.geolib;
-    delete window.geolib;
-    return leGeolib;
+    return window.geolib;
+});
+
+angular.module('metroRappid.services.XmlToYavaScript', [])
+.factory('XmlToYavaScript', function() {
+    // FIXME: ;_;
+    return window.X2JS;
 });
