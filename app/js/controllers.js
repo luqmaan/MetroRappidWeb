@@ -16,28 +16,20 @@ angular.module('metroRappid.controllers', ['metroRappid.services.Stops', 'geoloc
                 $scope.activity = "Updating location";
                 $scope.stops = stops;
 
-                console.log('oijwefoijwef');
-
                 geolocation.getLocation().then(function(location) {
-                    console.log('hehEHEHEH');
                     location.lat = location.latitude;
                     location.lon = location.longtitude;
 
                     $scope.activity = 'Finding closest location';
                     $scope.location = location;
-                    console.log('hehEHEHEH');
 
                     console.log($scope.location.coords, $scope.stops);
 
                     Geolib.orderByDistance($scope.location.coords, $scope.stops).forEach(function(stop, i) {
                         $scope.stops[i].distance = stop.distance;
-                        console.log('distance', stop.distance, $scope.stops[i].distance);
                     });
 
-                    console.log('hehEHEHEH');
                     $scope.activity = false;
-                    console.log('hehEHEHEH fineale');
-
                     deferredController.resolve();
 
                 }, errorHandler);
@@ -48,5 +40,6 @@ angular.module('metroRappid.controllers', ['metroRappid.services.Stops', 'geoloc
             }
         );
 
+    // return a promise so we can test without using setTimeout
     return deferredController.promise;
 });

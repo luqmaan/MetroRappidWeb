@@ -6,25 +6,19 @@ describe('controllers', function() {
             $log,
             _rootscope,
             _timeout,
-            Geolib,
-            createController;
+            RouteStopsCtrl;
 
-        beforeEach(angular.mock.module('metroRappid.controllers'));
 
-        beforeEach(angular.mock.inject(function($rootScope, $controller, $q, $timeout, $injector) {
-            _rootscope = $rootScope;
-            _timeout = $timeout;
-            $scope = _rootscope.$new();
-            $q = $q;
-            $log = $injector.get('$log');
-            Geolib = $injector.get('Geolib');
+        beforeEach(function() {
+            angular.mock.module('metroRappid.controllers');
+            angular.mock.inject(function($rootScope, $controller, $q, $timeout, $injector) {
 
-            createController = function(injections) {
-                var defaultInjections = {
+                $scope = $rootScope.$new();
+
+                RouteStopsCtrl = $controller('RouteStopsCtrl', {
                     $scope: $scope,
-                    $routeParams: {},
+                    $routeParams: {routeID: 801, directionID: 0},
                     $log: $log,
-                    Geolib: Geolib,
                     geolocation: {
                         getLocation: function() {
                             var deferred = $q.defer(),
@@ -51,27 +45,20 @@ describe('controllers', function() {
                             return deferred.promise;
                         }
                     },
-                };
-                console.error('Geolib', $injector.get('Geolib'), '**************************', $injector.get('Geolib'));
-                return $controller('RouteStopsCtrl', angular.extend(defaultInjections, injections));
-            };
-        }));
+                });
+            });
+        });
 
-        // it('should add stops to $scope', function(done) {
-        //     var RouteStopsCtrl = createController();
-
-        //     RouteStopsCtrl.then(function() {
-        //         expect(Geolib).not.toBe(undefined);
-        //         expect($scope.stops[0].stop_name).toBe('SOUTHPARK MEADOWS STATION');
-        //         done();
-        //     }, function(e) { throw e; });
-        // });
-
-        it('should add distance to the stops', function(done) {
-            var RouteStopsCtrl = createController();
-
+        it('should pass', function(done) {
             RouteStopsCtrl.then(function() {
-                expect(Geolib).not.toBe(undefined);
+                expect($scope.stops[0].stop_name).toBe('SOUTHPARK MEADOWS STATION');
+                expect($scope.stops[0].distance).toBe(8530);
+                done();
+            }, function(e) { throw e; });
+        });
+
+        it('should not fail, but does because geolib is undefined ;_:', function(done) {
+            RouteStopsCtrl.then(function() {
                 expect($scope.stops[0].stop_name).toBe('SOUTHPARK MEADOWS STATION');
                 expect($scope.stops[0].distance).toBe(8530);
                 done();
