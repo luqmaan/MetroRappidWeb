@@ -6,20 +6,16 @@ module.exports = function(grunt) {
                 options: {
                     port: 3713,
                     hostname: '0.0.0.0',
-                    base: 'app',
                     livereload: true
                 }
             }
         },
         open: {
             all: {
-                path: 'http://localhost:<%= connect.all.options.port%>'
+                path: 'http://localhost:<%= connect.all.options.port%>/app'
             }
         },
         watch: {
-            options: {
-                livereload: true,
-            },
             grunt: {
                 files: ['Gruntfile.js'],
                 options: {
@@ -27,23 +23,19 @@ module.exports = function(grunt) {
                 }
             },
             sass: {
-                files: ['app/sass/*.sass'],
+                files: ['app/scss/*.scss'],
                 tasks: ['build_sass'],
             },
             app: {
                 files: ['app/*', 'app/js/*.js', 'app/css/*.css', 'app/partials/*.html'],
+                options: {
+                    livereload: true,
+                },
             }
         },
         exec: {
-            copy_bourbon: {
-                command: 'cp -r bower_components/bourbon/app/assets/stylesheets app/sass/bourbon'
-            },
-            install_sass_to_scss: {
-                command: 'git submodule add git@github.com:luqmaan/sass_to_scss.git',
-                exitCode: [0, 1]  // ignore submodule init directory already exists error so the next task can run
-            },
-            sass_to_scss: {
-                command: 'python sass_to_scss/sass_to_scss.py app/sass/main.sass'
+            copy_foundation: {
+                command: 'cp -r bower_components/foundation/scss app/scss/foundation'
             }
         },
         sass: {
@@ -55,12 +47,17 @@ module.exports = function(grunt) {
             dev: {
                 options: {
                     includePaths: [
-                        'app/sass'
+                        'app/scss'
                     ]
                 },
                 files: {
-                    'app/css/main.css': 'app/sass/main.scss'
+                    'app/css/main.css': 'app/scss/main.scss'
                 }
+            }
+        },
+        karma: {
+            unit: {
+                configFile: 'test/karma.conf.js'
             }
         }
     });
@@ -71,21 +68,11 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-reload');
     grunt.loadNpmTasks('grunt-open');
     grunt.loadNpmTasks('grunt-sass');
+    grunt.loadNpmTasks('grunt-karma');
 
+    grunt.registerTask('default', ['open','connect','watch','karma']);
+    grunt.registerTask('install', ['exec:copy_foundation']);
+    grunt.registerTask('build_sass', ['sass:dev']);
+    grunt.registerTask('test', ['karma']);
 
-    grunt.registerTask('default', [
-        'open',
-        'connect',
-        'watch'
-    ]);
-
-    grunt.registerTask('install', [
-        'exec:install_sass_to_scss',
-        'exec:copy_bourbon',
-    ]);
-
-    grunt.registerTask('build_sass', [
-        'exec:sass_to_scss',
-        'sass:dev'
-    ]);
 };

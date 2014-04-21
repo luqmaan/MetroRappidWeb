@@ -1,31 +1,45 @@
-angular
-    .module('metroRappid.controllers', ['metroRappid.services.NextBus'])
-    .controller('MapCtrl', function ($scope, NextBus) {
-        angular.extend($scope, {
-            defaults: {
-                tileLayer: 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-                minZoom: 12,
-                maxZoom: 16,
-                path: {
-                    weight: 10,
-                    color: '#800000',
-                    opacity: 1
-                }
-            },
-            center: {
-                lat: 30.267153,
-                lng: -97.743061,
-                zoom: 12
-            }
-        });
+angular.module('metroRappid.controllers', ['metroRappid.services.Stops', 'geolocation', 'metroRappid.services.Geolib'])
+    .controller('RouteStopsCtrl', function($scope, $routeParams, $log, $q, Stops, geolocation, Geolib) {
+        var deferredController = $q.defer(),
+            errorHandler = function errorHandler(e) {
+                console.log('error', e);
+                $scope.activity = e;
+                deferredController.reject(e);
+            };
 
-        NextBus.get('abc').then(
-            function(xml) { window.xml = xml; console.log(arguments); },
-            function() { console.error(arguments); }
-            // function() { console.log(arguments); }
+        $scope.routeID = $routeParams.routeID;
+        $scope.directionID = $routeParams.directionID;
+        $scope.activity = "Fetching stops";
+
+        Stops.get($scope.routeID, $scope.directionID).then(
+            function(stops) {
+                $scope.activity = "Updating location";
+                $scope.stops = stops;
+
+                geolocation.getLocation().then(function(location) {
+                    location.lat = location.latitude;
+                    location.lon = location.longtitude;
+
+                    $scope.activity = 'Finding closest location';
+                    $scope.location = location;
+
+                    console.log($scope.location.coords, $scope.stops);
+
+                    Geolib.orderByDistance($scope.location.coords, $scope.stops).forEach(function(stop, i) {
+                        $scope.stops[i].distance = stop.distance;
+                    });
+
+                    $scope.activity = false;
+                    deferredController.resolve();
+
+                }, errorHandler);
+            },
+            errorHandler,
+            function() {
+                console.log('notify', arguments);
+            }
         );
 
-    });
-
-
-
+    // return a promise so we can test without using setTimeout
+    return deferredController.promise;
+});

@@ -1,0 +1,15 @@
+<div class="row">
+    <h1>{{ routeID }} {{ directionID | directionify  }} Stops</h1>
+</div>
+
+<div class="row activity" ng-show="activity">
+    {{ activity }}
+</div>
+
+
+<div class="row">
+    <dl ng-repeat="stop in stops" class="stop" ng-class="{closest: stop.distanceIndex===0}">
+        <dt>{{ stop.stop_name }}</dt>
+    </dl>
+</div>
+

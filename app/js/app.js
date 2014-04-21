@@ -8,9 +8,9 @@ angular
     ])
     .config(['$routeProvider',
         function($routeProvider) {
-            $routeProvider.when('/map', {
-                templateUrl: 'partials/map.html',
-                controller: 'MapCtrl'
-            });
+            $routeProvider.when('/Route/:routeID/:directionID/Stops', {
+                templateUrl: 'partials/stops.html',
+                controller: 'RouteStopsCtrl'
+            }).otherwise({redirectTo: '/Route/801/0/Stops'});
         }
     ]);
