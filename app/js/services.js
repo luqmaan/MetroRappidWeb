@@ -32,8 +32,8 @@ angular.module('metroRappid.services.NextBus', [])
     };
 });
 
-angular.module('metroRappid.services.Stops', [])
-.factory('Stops', function($http, $q) {
+angular.module('metroRappid.services.TripStops', [])
+.factory('TripStops', function($http, $q) {
     return {
         get: function(routeId, directionID) {
             var self = this,
@@ -57,6 +57,29 @@ angular.module('metroRappid.services.Stops', [])
         }
     };
 });
+
+angular.module('metroRappid.services.TripShapes', [])
+.factory('TripShapes', function($http, $q) {
+    return {
+        get: function(routeId, directionID) {
+            var self = this,
+                method = 'GET',
+                url = '/app/data/shapes_' + routeId + '_' + directionID + '.json',
+                deferred = $q.defer();
+
+            console.log(method, url);
+
+            $http({method: method, url: url})
+                .success(function(data, status, headers, config) {
+                    deferred.resolve(data);
+                })
+                .error(deferred.reject);
+
+            return deferred.promise;
+        }
+    };
+});
+
 
 angular.module('metroRappid.services.Geolib', [])
 .factory('Geolib', function() {
