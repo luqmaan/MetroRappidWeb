@@ -45,6 +45,10 @@ angular.module('metroRappid.services.Stops', [])
 
             $http({method: method, url: url})
                 .success(function(data, status, headers, config) {
+                    data.forEach(function(stop) {
+                        stop.latitude = stop.stop_lat;
+                        stop.longitude = stop.stop_lon;
+                    });
                     deferred.resolve(data);
                 })
                 .error(deferred.reject);

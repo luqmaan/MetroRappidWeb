@@ -17,9 +17,6 @@ angular.module('metroRappid.controllers', ['metroRappid.services.Stops', 'geoloc
                 $scope.stops = stops;
 
                 geolocation.getLocation().then(function(location) {
-                    location.lat = location.latitude;
-                    location.lon = location.longtitude;
-
                     $scope.activity = 'Finding closest location';
                     $scope.location = location;
 
