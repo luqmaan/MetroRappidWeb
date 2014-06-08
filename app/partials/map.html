@@ -1,1 +1,8 @@
-<leaflet width="640px" height="480px"></leaflet>
+<div class="row">
+    <h1>{{ routeID }} {{ directionID | directionify  }} Stops</h1>
+</div>
+
+<div class="row">
+    <leaflet width="640px" height="480px" center="center" paths="paths">
+    </leaflet>
+</div>

@@ -71,7 +71,11 @@ angular.module('metroRappid.services.TripShapes', [])
 
             $http({method: method, url: url})
                 .success(function(data, status, headers, config) {
-                    deferred.resolve(data);
+                    var result = [];
+                    data.forEach(function(point) {
+                        result.push(new L.LatLng(point.shape_pt_lat, point.shape_pt_lon));
+                    });
+                    deferred.resolve(result);
                 })
                 .error(deferred.reject);
 
