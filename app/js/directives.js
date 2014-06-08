@@ -1,11 +1,15 @@
-'use strict';
+define(['angular', 'services'], function (angular) {
 
-/* Directives */
+    'use strict';
+
+    /* Directives */
 
 
-angular.module('metroRappid.directives', []).
-  directive('appVersion', ['version', function(version) {
-    return function(scope, elm, attrs) {
-      elm.text(version);
-    };
-  }]);
+    angular.module('metroRappid.directives', []).
+      directive('appVersion', ['version', function(version) {
+        return function(scope, elm, attrs) {
+          elm.text(version);
+        };
+      }]);
+
+});

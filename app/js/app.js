@@ -1,7 +1,13 @@
-angular
-    .module('metroRappid', [
+define([
+    'angular',
+    'filters',
+    'services',
+    'directives',
+    'controllers',
+    ], function (angular, filters, services, directives, controllers) {
+
+    return angular.module('metroRappid', [
         'ngRoute',
-        'leaflet-directive',
         'metroRappid.filters',
         'metroRappid.services',
         'metroRappid.directives',
@@ -23,3 +29,5 @@ angular
             }).otherwise({redirectTo: '/Route/801/0'});
         }
     ]);
+
+});

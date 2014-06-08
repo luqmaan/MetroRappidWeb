@@ -1,65 +1,68 @@
-angular.module('metroRappid.controllers', ['metroRappid.services.TripStops', 'metroRappid.services.TripShapes', 'geolocation', 'metroRappid.services.Geolib'])
-.controller('RouteTripStopsCtrl', function($scope, $routeParams, $log, $q, geolocation, TripStops, Geolib) {
-    var deferredController = $q.defer(),
-        errorHandler = function errorHandler(e) {
-            console.log('error', e);
-            $scope.activity = e;
-            deferredController.reject(e);
-        };
+define(['angular', 'services', 'angular-leaflet-directive', 'angularjs-geolocation', 'geolib'], function (angular) {
 
-    $scope.routeID = $routeParams.routeID;
-    $scope.directionID = $routeParams.directionID;
-    $scope.activity = "Fetching stops";
+    angular.module('metroRappid.controllers', ['metroRappid.services.TripStops', 'metroRappid.services.TripShapes'])
+    .controller('RouteTripStopsCtrl', function($scope, $routeParams, $log, $q, geolocation, TripStops, Geolib) {
+        var deferredController = $q.defer(),
+            errorHandler = function errorHandler(e) {
+                console.log('error', e);
+                $scope.activity = e;
+                deferredController.reject(e);
+            };
 
-    TripStops.get($scope.routeID, $scope.directionID).then(
-        function(stops) {
-            $scope.activity = "Updating location";
-            $scope.stops = stops;
+        $scope.routeID = $routeParams.routeID;
+        $scope.directionID = $routeParams.directionID;
+        $scope.activity = "Fetching stops";
 
-            geolocation.getLocation().then(function(location) {
-                $scope.activity = 'Finding closest location';
-                $scope.location = location;
+        TripStops.get($scope.routeID, $scope.directionID).then(
+            function(stops) {
+                $scope.activity = "Updating location";
+                $scope.stops = stops;
 
-                console.log($scope.location.coords, $scope.stops);
+                geolocation.getLocation().then(function(location) {
+                    $scope.activity = 'Finding closest location';
+                    $scope.location = location;
 
-                Geolib.orderByDistance($scope.location.coords, $scope.stops).forEach(function(stop, i) {
-                    $scope.stops[i].distance = stop.distance;
-                });
+                    console.log($scope.location.coords, $scope.stops);
 
-                $scope.activity = false;
-                deferredController.resolve();
+                    Geolib.orderByDistance($scope.location.coords, $scope.stops).forEach(function(stop, i) {
+                        $scope.stops[i].distance = stop.distance;
+                    });
 
-            }, errorHandler);
-        },
-        errorHandler,
-        function() {
-            console.log('notify', arguments);
-        }
-    );
+                    $scope.activity = false;
+                    deferredController.resolve();
 
-    // return a promise so we can test without using setTimeout
-    return deferredController.promise;
-});
+                }, errorHandler);
+            },
+            errorHandler,
+            function() {
+                console.log('notify', arguments);
+            }
+        );
 
-angular.module('metroRappid.controllers')
-.controller('RouteMapCtrl', function($scope, $routeParams, $log, $q, TripStops, TripShapes) {
-    angular.extend($scope, {
-        routeID: $routeParams.routeID,
-        directionID: $routeParams.directionID,
-        center: {
-            lat: 30.29,
-            lng: -97.743061,
-            zoom: 11
-        },
-        paths: {}
+        // return a promise so we can test without using setTimeout
+        return deferredController.promise;
     });
 
-    TripShapes.get($routeParams.routeID, $routeParams.directionID).then(function(shape) {
-        $scope.paths.p1 = {
-            color: 'rgb(206,36,41)',
-            weight: 8,
-            latlngs: shape
-        };
-    }, function(e) { console.error(e); });
-});
+    angular.module('metroRappid.controllers')
+    .controller('RouteMapCtrl', function($scope, $routeParams, $log, $q, TripStops, TripShapes) {
+        angular.extend($scope, {
+            routeID: $routeParams.routeID,
+            directionID: $routeParams.directionID,
+            center: {
+                lat: 30.29,
+                lng: -97.743061,
+                zoom: 11
+            },
+            paths: {}
+        });
 
+        TripShapes.get($routeParams.routeID, $routeParams.directionID).then(function(shape) {
+            $scope.paths.p1 = {
+                color: 'rgb(206,36,41)',
+                weight: 8,
+                latlngs: shape
+            };
+        }, function(e) { console.error(e); });
+    });
+
+});
