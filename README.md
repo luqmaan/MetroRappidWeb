@@ -1,3 +1,5 @@
+Abandoned for [https://github.com/luqmaan/MetroRappidWebGhetto](https://github.com/luqmaan/MetroRappidWebGhetto), because Angular and such are overkill for this problemo.
+
 MetroRappidAndroid
 ==================
 
